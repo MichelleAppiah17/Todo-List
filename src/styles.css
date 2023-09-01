@@ -1,0 +1,31 @@
+input{
+   height: 25px;
+   border: none;
+   background: none;
+   border-bottom: 5px solid black;
+}
+body{
+    background-color: rgb(175, 106, 240);
+}
+.taskFolders{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 10%;
+    padding-top: 5%;
+}
+.addListBtn{
+    border: none;
+    background: none;
+    font-size: 30px;
+}
+.listName{
+    margin-bottom: 10px;
+}
+h1{
+    color: rgb(11, 104, 73);
+    padding-top: 5%;
+    padding-left: 40%;
+
+}
