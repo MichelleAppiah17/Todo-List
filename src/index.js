@@ -1,5 +1,5 @@
 import './styles.css'
-import listCard from './list'
+//import listCard from './list'
 
 const addButton = document.querySelector('.addListBtn');
 const taskList = document.querySelector('.taskList');
@@ -16,4 +16,46 @@ addButton.addEventListener('click', function(event) {
   taskList.appendChild(listItem);
 
   document.querySelector('.newList').value = '';
+});
+
+var cardsContainer = document.querySelector(".cardsContainer");
+var listName = document.querySelectorAll(".listName");
+
+listName.forEach((item) => {
+  item.addEventListener("click", function listCard() {
+    var taskCard = document.createElement("div");
+    taskCard.classList.add("taskCard");
+
+    const cardHeading = document.createElement('h2');
+    cardHeading.textContent = item.textContent;
+
+    const cardLists = document.createElement('ul');
+    cardLists.classList.add('cardLists');
+
+    const cardInput = document.createElement('input');
+    cardInput.type = 'text';
+    cardInput.classList.add('cardInput');
+
+    const cardAddBtn = document.createElement('button')
+    cardAddBtn.textContent = 'Add';
+    cardAddBtn.classList.add('cardAddBtn');
+
+    cardAddBtn.addEventListener('click', function() {
+      var cardListInput = cardInput.value;
+
+      const listItem = document.createElement('li');
+      listItem.textContent = cardListInput;
+
+      cardLists.appendChild(listItem);
+
+      cardInput.value = '';
+    });
+
+    taskCard.appendChild(cardHeading);
+    taskCard.appendChild(cardLists);
+    taskCard.appendChild(cardInput);
+    taskCard.appendChild(cardAddBtn);
+
+    document.body.appendChild(taskCard);
+  });
 });
