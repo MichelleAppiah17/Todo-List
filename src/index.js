@@ -18,13 +18,21 @@ addButton.addEventListener('click', function(event) {
   document.querySelector('.newList').value = '';
 });
 
-var cardsContainer = document.querySelector(".cardsContainer");
 var listName = document.querySelectorAll(".listName");
 
 listName.forEach((item) => {
   item.addEventListener("click", function listCard() {
+
+    
     var taskCard = document.createElement("div");
     taskCard.classList.add("taskCard");
+
+    var closeButton = document.createElement("button");
+    closeButton.textContent = "X";
+    closeButton.classList.add("closeButton");
+    closeButton.addEventListener("click", function() {
+       taskCard.remove();
+    });
 
     const cardHeading = document.createElement('h2');
     cardHeading.textContent = item.textContent;
@@ -51,6 +59,7 @@ listName.forEach((item) => {
       cardInput.value = '';
     });
 
+    taskCard.appendChild(closeButton);
     taskCard.appendChild(cardHeading);
     taskCard.appendChild(cardLists);
     taskCard.appendChild(cardInput);
