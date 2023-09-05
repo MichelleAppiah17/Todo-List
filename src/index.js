@@ -3,39 +3,33 @@ import './styles.css'
 
 const addButton = document.querySelector('.addListBtn');
 const taskList = document.querySelector('.taskList');
+const savedContent = {};
 
-addButton.addEventListener('click', function(event) {
+addButton.addEventListener('click', function (event) {
   event.preventDefault();
 
   const input = document.querySelector('.newList').value;
+  const listNameItem = document.createElement('li');
+  listNameItem.classList.add('listName');
+  listNameItem.textContent = input;
 
-  const listItem = document.createElement('li');
-  listItem.classList.add('listName');
-  listItem.textContent = input;
-
-  taskList.appendChild(listItem);
-
+  taskList.appendChild(listNameItem);
   document.querySelector('.newList').value = '';
 });
 
-var listName = document.querySelectorAll(".listName");
+document.querySelectorAll('.listName').forEach((item) => {
+  item.addEventListener('click', function listCard() {
+    const cardTitle = item.textContent;
 
-listName.forEach((item) => {
-  item.addEventListener("click", function listCard() {
+    var taskCard = document.createElement('div');
+    taskCard.classList.add('taskCard');
 
-    
-    var taskCard = document.createElement("div");
-    taskCard.classList.add("taskCard");
-
-    var closeButton = document.createElement("button");
-    closeButton.textContent = "X";
-    closeButton.classList.add("closeButton");
-    closeButton.addEventListener("click", function() {
-       taskCard.remove();
-    });
+    var closeButton = document.createElement('button');
+    closeButton.textContent = 'X';
+    closeButton.classList.add('closeButton');
 
     const cardHeading = document.createElement('h2');
-    cardHeading.textContent = item.textContent;
+    cardHeading.textContent = cardTitle;
 
     const cardLists = document.createElement('ul');
     cardLists.classList.add('cardLists');
@@ -44,20 +38,64 @@ listName.forEach((item) => {
     cardInput.type = 'text';
     cardInput.classList.add('cardInput');
 
-    const cardAddBtn = document.createElement('button')
+    const cardAddBtn = document.createElement('button');
     cardAddBtn.textContent = 'Add';
     cardAddBtn.classList.add('cardAddBtn');
 
-    cardAddBtn.addEventListener('click', function() {
+    let contentSaved = false;
+
+    cardAddBtn.addEventListener('click', function () {
       var cardListInput = cardInput.value;
 
-      const listItem = document.createElement('li');
-      listItem.textContent = cardListInput;
+      if (cardListInput !== '') {
+        const listItem = document.createElement('li');
+        listItem.textContent = cardListInput;
 
-      cardLists.appendChild(listItem);
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('deleteButtton')
+        deleteButton.textContent = 'X';
 
-      cardInput.value = '';
+
+        deleteButton.addEventListener('click', function () {
+          listItem.remove();
+        });
+
+        listItem.appendChild(deleteButton);
+        cardLists.appendChild(listItem);
+        cardInput.value = '';
+      }
     });
+
+    closeButton.addEventListener('click', function () {
+      if (!contentSaved) {
+        savedContent[cardTitle] = savedContent[cardTitle] || [];
+        cardLists.querySelectorAll('li').forEach((listItem) => {
+          savedContent[cardTitle].push(listItem.textContent);
+        });
+        contentSaved = true;
+      }
+      taskCard.remove();
+    });
+
+    if (savedContent[cardTitle]) {
+      savedContent[cardTitle].forEach((content) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = content;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('deleteButtton')
+        deleteButton.textContent = 'X';
+
+        deleteButton.addEventListener('click', function () {
+          listItem.remove();
+        });
+
+        listItem.appendChild(deleteButton);
+        cardLists.appendChild(listItem);
+      });
+
+      contentSaved = true;
+    }
 
     taskCard.appendChild(closeButton);
     taskCard.appendChild(cardHeading);
